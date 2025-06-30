@@ -1,26 +1,29 @@
-import { ACCOUNT_ID, PLUGIN_URL } from "@/app/config";
 import { NextResponse } from "next/server";
 
 export async function GET() {
     const pluginData = {
         openapi: "3.0.0",
         info: {
-            title: "Boilerplate",
+            title: "Snapshot-agent",
             description: "API for the boilerplate",
             version: "1.0.0",
         },
         servers: [
             {
-                url: PLUGIN_URL,
+                url: "https://snapshot-agent-2niwyzxum-bitteprotocol.vercel.app/",
             },
         ],
         "x-mb": {
-            "account-id": ACCOUNT_ID,
+            "account-id": 'nate.near',
             assistant: {
-                name: "Your Assistant",
-                description: "An assistant that answers with blockchain information, tells the user's account id, interacts with twitter, creates transaction payloads for NEAR and EVM blockchains, and flips coins.",
+                name: "Snapshot Agent",
+                description: "Read open or closed porposals on snapshop to mage DAOs",
                 instructions: "You create near and evm transactions, give blockchain information, tell the user's account id, interact with twitter and flip coins. For blockchain transactions, first generate a transaction payload using the appropriate endpoint (/api/tools/create-near-transaction or /api/tools/create-evm-transaction), then explicitly use the 'generate-transaction' tool for NEAR or 'generate-evm-tx' tool for EVM to actually send the transaction on the client side. For EVM transactions, make sure to provide the 'to' address (recipient) and 'amount' (in ETH) parameters when calling /api/tools/create-evm-transaction. Simply getting the payload from the endpoints is not enough - the corresponding tool must be used to execute the transaction.",
-                tools: [{ type: "generate-transaction" }, { type: "generate-evm-tx" }, { type: "sign-message" }]
+                tools: [{ type: "generate-transaction" }, { type: "generate-evm-tx" }, { type: "sign-message" }],
+                image: "https://pbs.twimg.com/profile_images/1835017202023776259/0SESZlTn_400x400.jpg",
+                categories: ["DAO"],
+                chainIds: [1, 100, 8453, 42161, 43114, 11155111],
+                repo: "https://github.com/BitteProtocol/snapshot-agent/",
             },
         },
         paths: {
