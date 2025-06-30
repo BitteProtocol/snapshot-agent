@@ -7,7 +7,7 @@ const SNAPSHOT_GRAPHQL_ENDPOINT = 'https://hub.snapshot.org/graphql';
 // Initialize GraphQL client
 const client = new GraphQLClient(SNAPSHOT_GRAPHQL_ENDPOINT);
 
-
+type Proposal = { id: string, title: string, state: string, author: string, space: { name: string }, start: number, end: number, scores_total: string, choices: string[], scores_updated: number }
 
 async function fetchProposalsWithGraphQLRequest(accountId: string, state: string) {
 
@@ -47,7 +47,7 @@ async function fetchProposalsWithGraphQLRequest(accountId: string, state: string
 
   try {
     console.log('Fetching proposals using graphql-request...');
-    const data = await client.request(GET_PROPOSALS_QUERY);
+    const data = await client.request<{ proposals: Proposal[] }>(GET_PROPOSALS_QUERY);
     console.log('Success! Retrieved', data.proposals.length, 'proposals');
     return data.proposals;
   } catch (error) {
@@ -56,8 +56,7 @@ async function fetchProposalsWithGraphQLRequest(accountId: string, state: string
   }
 }
 
-
-function formatProposal(proposal) {
+function formatProposal(proposal: Proposal) {
   return {
     id: proposal.id,
     title: proposal.title,
@@ -93,7 +92,7 @@ export async function GET(request: Request) {
     // Choose your preferred method:
 
     // Method 1: Using graphql-request (recommended)
-    const proposals = await fetchProposalsWithGraphQLRequest(accountId || evmAddress || 'yam.eth', state);
+    const proposals = await fetchProposalsWithGraphQLRequest(accountId || evmAddress || 'yam.eth', state?.toString() || 'all');
 
     // Method 2: Using fetch API directly
     // const proposals = await fetchProposalsWithFetch();
@@ -103,7 +102,7 @@ export async function GET(request: Request) {
 
     // Process and display results
     console.log('\n=== PROPOSAL RESULTS ===');
-    proposals.forEach((proposal: any, index: number) => {
+    proposals.forEach((proposal: Proposal, index: number) => {
       const formatted = formatProposal(proposal);
       console.log(`\n${index + 1}. ${formatted.title}`);
       console.log(`   ID: ${formatted.id}`);
