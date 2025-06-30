@@ -8,7 +8,7 @@
       "instructions": "Detailed, specific instructions to be passed to AI Agent on it's funcitonality and tool usage.",
       "servers": [
         {
-          "url": "https://snapshot-agent-2niwyzxum-bitteprotocol.vercel.app/"
+          "url": "https://snapshot-agent-git-main-bitteprotocol.vercel.app/"
         }
       ],
       "tools": [
