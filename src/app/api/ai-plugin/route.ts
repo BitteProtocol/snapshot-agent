@@ -10,7 +10,7 @@ export async function GET() {
         },
         servers: [
             {
-                url: "https://snapshot-agent-2niwyzxum-bitteprotocol.vercel.app/",
+                url: "https://snapshot-agent-env-prod-bitteprotocol.vercel.app/",
             },
         ],
         "x-mb": {
@@ -23,7 +23,6 @@ export async function GET() {
                 image: "https://pbs.twimg.com/profile_images/1835017202023776259/0SESZlTn_400x400.jpg",
                 categories: ["DAO"],
                 chainIds: [1, 100, 8453, 42161, 43114, 11155111],
-                repo: "https://github.com/BitteProtocol/snapshot-agent/",
             },
         },
         paths: {
