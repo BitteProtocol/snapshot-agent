@@ -15,7 +15,7 @@ export async function GET() {
         ],
         "x-mb": {
             "account-id": 'nate.near',
-            "email": 'nate@bitte.ai',
+            email: "nate@bitte.ai",
             assistant: {
                 name: "Snapshot Agent",
                 description: "Read open or closed porposals on snapshop to mage DAOs",
@@ -25,7 +25,7 @@ export async function GET() {
                 repo: "https://github.com/BitteProtocol/snapshot-agent",
                 categories: ["DAO"],
                 chainIds: [1, 100, 8453, 42161, 43114, 11155111],
-                version: "0.1.0",
+                version: "0.1.0"
             },
         },
         paths: {
