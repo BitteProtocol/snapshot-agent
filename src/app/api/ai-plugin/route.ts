@@ -6,11 +6,11 @@ export async function GET() {
         info: {
             title: "Snapshot-agent",
             description: "API for the boilerplate",
-            version: "1.0.0",
+            version: "1.0.0"
         },
         servers: [
             {
-                url: "https://snapshot-agent.vercel.app/",
+                url: "https://snapshot-agent.vercel.app/"
             },
         ],
         "x-mb": {
