@@ -70,8 +70,8 @@ importers:
         specifier: ^15.2.4
         version: 15.2.4(eslint@9.23.0(jiti@2.4.2))(typescript@5.8.2)
       make-agent:
-        specifier: 0.3.2
-        version: 0.3.2(@types/node@22.13.13)(openapi-types@12.1.3)
+        specifier: 0.3.4
+        version: 0.3.4(@types/node@22.13.13)(openapi-types@12.1.3)
       typescript:
         specifier: 5.8.2
         version: 5.8.2
@@ -2066,8 +2066,8 @@ packages:
   lunr@2.3.9:
     resolution: {integrity: sha512-zTU3DaZaF3Rt9rhN3uBMGQD3dD2/vFQqnvZCDv4dl5iOzq2IZQqTxu90r4E5J+nP70J3ilqVCrbho2eWaeW8Ow==}
 
-  make-agent@0.3.2:
-    resolution: {integrity: sha512-4RbPKAPhHZeN0xWgCZSzCrantn3FFeQVS/z0ng6u+DBtBpJM/He8HvqgGhNgwoUbMaWN3klzys90f7PwHh4q/g==}
+  make-agent@0.3.4:
+    resolution: {integrity: sha512-Pfy6L8b6KlTLjpon4/8ULD8Y+YtyelUCh3dDXqo9+ItHozydaNNISNMIOFPhFHiEezkM8vyal06BHF6xowpaCA==}
     hasBin: true
 
   mark.js@8.11.1:
@@ -5846,7 +5846,7 @@ snapshots:
 
   lunr@2.3.9: {}
 
-  make-agent@0.3.2(@types/node@22.13.13)(openapi-types@12.1.3):
+  make-agent@0.3.4(@types/node@22.13.13)(openapi-types@12.1.3):
     dependencies:
       '@apidevtools/swagger-parser': 12.0.0(openapi-types@12.1.3)
       ajv: 8.17.1
