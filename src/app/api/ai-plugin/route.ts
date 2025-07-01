@@ -11,7 +11,7 @@ export async function GET() {
         servers: [
             {
                 url: "https://snapshot-agent.vercel.app/"
-            },
+            }
         ],
         "x-mb": {
             "account-id": 'nate.near',
@@ -25,7 +25,7 @@ export async function GET() {
                 repo: "https://github.com/BitteProtocol/snapshot-agent",
                 categories: ["DAO"],
                 chainIds: [1, 100, 8453, 42161, 43114, 11155111]
-            },
+            }
         },
         paths: {
             "/api/tools/get-proposal": {
