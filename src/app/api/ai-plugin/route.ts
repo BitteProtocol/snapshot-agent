@@ -10,7 +10,7 @@ export async function GET() {
         },
         servers: [
             {
-                url: "https://snapshot-agent-env-prod-bitteprotocol.vercel.app/",
+                url: "https://snapshot-agent.vercel.app/",
             },
         ],
         "x-mb": {
