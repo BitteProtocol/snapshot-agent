@@ -24,8 +24,7 @@ export async function GET() {
                 image: "https://pbs.twimg.com/profile_images/1835017202023776259/0SESZlTn_400x400.jpg",
                 repo: "https://github.com/BitteProtocol/snapshot-agent",
                 categories: ["DAO"],
-                chainIds: [1, 100, 8453, 42161, 43114, 11155111],
-                version: "0.1.0"
+                chainIds: [1, 100, 8453, 42161, 43114, 11155111]
             },
         },
         paths: {
