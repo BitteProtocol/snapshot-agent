@@ -72,7 +72,7 @@ export async function GET() {
                                         type: "object",
                                         properties: {
                                             result: {
-                                                type: "array",
+                                                type: "string",
                                                 description: "The result of proposals made by account",
                                             }
                                         }
