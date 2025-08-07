@@ -1,0 +1,40 @@
+{
+  "name": "agent-next-boilerplate",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"next dev\" \"make-agent dev\"",
+    "dev:agent": "next dev",
+    "build": "next build",
+    "deploy": "next build && make-agent deploy -u https://evm-test-agent.vercel.app/",
+    "start": "next start",
+    "lint": "next lint",
+    "fmt": "prettier --write ."
+  },
+  "dependencies": {
+    "@bitte-ai/agent-sdk": "^0.2.7",
+    "graphql-request": "^7.2.0",
+    "next": "^15.4.5",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "redoc": "^2.5.0",
+    "vercel-url": "^0.2.8",
+    "viem": "^2.33.2",
+    "zod": "^4.0.14"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.1",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.2.0",
+    "@types/react": "^19.1.9",
+    "@types/react-dom": "^19.1.7",
+    "concurrently": "^9.2.0",
+    "eslint": "^9.32.0",
+    "eslint-config-next": "^15.4.5",
+    "jest": "^30.0.5",
+    "make-agent": "^0.3.5",
+    "near-ca": "^0.10.0",
+    "prettier": "^3.6.2",
+    "typescript": "5.9.2"
+  }
+}
