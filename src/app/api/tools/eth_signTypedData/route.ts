@@ -16,7 +16,6 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const proposalId = searchParams.get('proposalId');
-    console.log("starthere=====", proposalId);
 
     console.log("starthere=====", searchParams);
 

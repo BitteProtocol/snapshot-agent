@@ -10,7 +10,7 @@ async function submitVoteToSnapshot(account: string, message: string, signature:
     // Prepare the payload for Snapshot
     const payload = {
       address: account,
-      msg: message,
+      msg: JSON.stringify(JSON.parse(message).message),
       sig: signature
     };
     console.log("validate ------payload", payload);
@@ -56,7 +56,7 @@ export async function GET(request: Request) {
     );
 
     try {
-      await submitVoteToSnapshot(evmAddress, JSON.stringify(message), normalizeSignature(signature));
+      await submitVoteToSnapshot(evmAddress, message, normalizeSignature(signature));
       return NextResponse.json({ valid }, { status: 200 });
     } catch (error) {
       console.error('Error submitting vote:', error);

@@ -13,4 +13,4 @@ Each route is stateless, signs only what is shown, and includes expiry or other 
 
 > For demo/testing only — all signature requests are non-authoritative and expire quickly or immediately.
 
-The agent only produces payloads for Sepolia Testnet (chainId 11155111).
+The agent only produces payloads for base (chainId 8453).
