@@ -16,7 +16,7 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const proposalId = searchParams.get('proposalId');
-
+    const space = searchParams.get('space');
     console.log("starthere=====", searchParams);
 
     const { evmAddress } = SignMessageSchema.parse(
@@ -49,7 +49,7 @@ export async function GET(request: Request) {
       primaryType: "Vote",
       message: {
         from: evmAddress,
-        space: "nategeier.dcl.eth",
+        space,
         timestamp: Math.floor(Date.now() / 1000),
         proposal: formatProposalId(proposalId || ""),
         app: "snapshot-v2",

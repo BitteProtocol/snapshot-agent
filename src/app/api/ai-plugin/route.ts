@@ -112,7 +112,26 @@ export async function GET() {
                 type: "string"
               },
               description: "The ID of the proposal to vote on"
-            },],
+            },
+            {
+              name: "space",
+              in: "query",
+              required: true,
+              schema: {
+                type: "string"
+              },
+              description: "The name of the space to vote on, also known as the DAO usually ends with .eth"
+            },
+            {
+              name: "choice",
+              in: "query",
+              required: true,
+              schema: {
+                type: "string"
+              },
+              description: "for or against the proposal usually 1 for a yes or for or 2 for against or no"
+            },
+          ],
           responses: {
             "200": { $ref: "#/components/responses/SignRequestResponse200" },
           },
