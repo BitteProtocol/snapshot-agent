@@ -17,6 +17,7 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const proposalId = searchParams.get('proposalId');
     const space = searchParams.get('space');
+    const choice = searchParams.get('choice');
     console.log("starthere=====", searchParams);
 
     const { evmAddress } = SignMessageSchema.parse(
@@ -34,7 +35,7 @@ export async function GET(request: Request) {
           { "name": "from", "type": "address" },
           { "name": "space", "type": "string" },
           { "name": "timestamp", "type": "uint64" },
-          { "name": "proposal", "type": "bytes32" },
+          { "name": "proposal", "type": "string" },
           { "name": "app", "type": "string" },
           { "name": "metadata", "type": "string" },
           { "name": "choice", type: 'uint32' },
@@ -51,10 +52,10 @@ export async function GET(request: Request) {
         from: evmAddress,
         space,
         timestamp: Math.floor(Date.now() / 1000),
-        proposal: formatProposalId(proposalId || ""),
+        proposal: proposalId,
         app: "snapshot-v2",
         metadata: JSON.stringify({}),
-        choice: 1,
+        choice: Number(choice),
         reason: "",
       },
     });
