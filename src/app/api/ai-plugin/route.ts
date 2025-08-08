@@ -111,7 +111,37 @@ export async function GET() {
             "Verifies that a cryptographic signature was created by the specified Ethereum address for the given message or typed data. Returns true if the signature is valid and was created by the provided address, false otherwise. This endpoint supports EIP-712 structured data. All input parameters are required: message, evmAddress and signature! Always have the message be the same as the message that was signed.",
           operationId: "validate",
           parameters: [
-            { $ref: "#/components/parameters/message" },
+            {
+              name: "message",
+              in: "query",
+              required: true,
+              description:
+                "The original message or data that was signed. For EIP-712 typed data, provide a JSON object with 'domain', 'types', 'message', and 'primaryType' fields. This must be the exact same data that was originally signed.",
+              schema: {
+                type: "object",
+                description: "EIP-712 TypedData object",
+                required: ["types", "primaryType", "domain", "message"],
+                properties: {
+                  types: {
+                    type: "object",
+                    additionalProperties: {
+                      type: "array",
+                      items: {
+                        type: "object",
+                        required: ["name", "type"],
+                        properties: {
+                          name: { type: "string" },
+                          type: { type: "string" },
+                        },
+                      },
+                    },
+                  },
+                  primaryType: { type: "string" },
+                  domain: { type: "object" },
+                  message: { type: "object" },
+                },
+              },
+            },
             { $ref: "#/components/parameters/evmAddress" },
             {
               name: "signature",
@@ -224,12 +254,30 @@ export async function GET() {
           in: "query",
           required: true,
           description:
-            "The original message or data that was signed. For plain text messages, provide a string. For EIP-712 typed data, provide a JSON object with 'domain', 'types', 'message', and 'primaryType' fields. This must be the exact same data that was originally signed.",
+            "The original message or data that was signed. For EIP-712 typed data, provide a JSON object with 'domain', 'types', 'message', and 'primaryType' fields. This must be the exact same data that was originally signed.",
           schema: {
-            oneOf: [
-              { type: "string" },
-              { $ref: "#/components/schemas/TypedData" },
-            ],
+            type: "object",
+            description: "EIP-712 TypedData object",
+            required: ["types", "primaryType", "domain", "message"],
+            properties: {
+              types: {
+                type: "object",
+                additionalProperties: {
+                  type: "array",
+                  items: {
+                    type: "object",
+                    required: ["name", "type"],
+                    properties: {
+                      name: { type: "string" },
+                      type: { type: "string" },
+                    },
+                  },
+                },
+              },
+              primaryType: { type: "string" },
+              domain: { type: "object" },
+              message: { type: "object" },
+            },
           },
         },
         numSuccess: {
