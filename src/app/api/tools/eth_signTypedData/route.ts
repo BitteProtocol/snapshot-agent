@@ -26,20 +26,20 @@ export async function GET(request: Request) {
 
     const dataString = JSON.stringify({
       domain: {
-        name: "snapshot-v2",
+        name: "snapshot",
         version: "0.1.4",
         chainId: BASE_CHAIN_ID
       },
       types: {
         Vote: [
-          { "name": "from", "type": "address" },
+          { "name": "from", "type": "string" },
           { "name": "space", "type": "string" },
           { "name": "timestamp", "type": "uint64" },
           { "name": "proposal", "type": "string" },
+          { "name": "choice", "type": 'uint32' },
+          { "name": "reason", "type": "string" },
           { "name": "app", "type": "string" },
           { "name": "metadata", "type": "string" },
-          { "name": "choice", type: 'uint32' },
-          { "name": "reason", type: "string" },
         ],
         EIP712Domain: [
           { "name": "name", "type": "string" },
@@ -53,10 +53,10 @@ export async function GET(request: Request) {
         space,
         timestamp: Math.floor(Date.now() / 1000),
         proposal: proposalId,
-        app: "snapshot-v2",
-        metadata: JSON.stringify({}),
         choice: Number(choice),
         reason: "",
+        app: "snapshot",
+        metadata: JSON.stringify({}),
       },
     });
     return NextResponse.json(
