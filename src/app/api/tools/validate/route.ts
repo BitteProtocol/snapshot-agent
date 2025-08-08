@@ -4,16 +4,6 @@ import { normalizeSignature, verifySignature } from "../../logic";
 
 const SNAPSHOT_HUB_URL = 'https://hub.snapshot.org/api/msg';
 
-type Message = {
-  from: string;
-  space: string | null;
-  timestamp: number;
-  proposal: string;
-  app: string;
-  metadata: string;
-  choice: number;
-  reason: string;
-}
 
 
 
@@ -69,7 +59,7 @@ export async function GET(request: Request) {
     );
 
     try {
-      await submitVoteToSnapshot(evmAddress, message, normalizeSignature(signature));
+      await submitVoteToSnapshot(evmAddress, message as string, normalizeSignature(signature));
       return NextResponse.json({ valid }, { status: 200 });
     } catch (error) {
       console.error('Error submitting vote:', error);
