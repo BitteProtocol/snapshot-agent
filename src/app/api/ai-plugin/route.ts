@@ -14,8 +14,8 @@ export async function GET() {
     openapi: "3.0.0",
     info: {
       title: "Snapshot DAO Agent",
-      description: "Read and vote on DAO proposals on Snapshot",
-      version: "1.0.0",
+      description: "Read + vote on DAO proposals on Snapshot",
+      version: "1.0.2",
     },
     servers: [
       {
