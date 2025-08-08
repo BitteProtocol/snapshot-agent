@@ -23,7 +23,6 @@ async function submitVoteToSnapshot(account: string, message: string, signature:
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'authorization': 'Bearer f51ccea7608eb627e3fe1049377dcd6bd01216a2551ff7c391d5b5faaaf41e5f',
       },
       body: JSON.stringify(payload)
     });

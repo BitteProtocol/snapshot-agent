@@ -32,7 +32,7 @@ export async function GET(request: Request) {
       },
       types: {
         Vote: [
-          { "name": "from", "type": "string" },
+          { "name": "from", "type": "address" },
           { "name": "space", "type": "string" },
           { "name": "timestamp", "type": "uint64" },
           { "name": "proposal", "type": "string" },
@@ -59,6 +59,8 @@ export async function GET(request: Request) {
         metadata: JSON.stringify({}),
       },
     });
+
+    console.log("dataString---------------", dataString);
     return NextResponse.json(
       {
         transaction: {
@@ -66,7 +68,7 @@ export async function GET(request: Request) {
           method: "eth_signTypedData_v4",
           params: [evmAddress, dataString],
         },
-        meta: `Sign Dummy Typed Data.`,
+        meta: `Sign Vote Typed Data.`,
       },
       { status: 200 },
     );

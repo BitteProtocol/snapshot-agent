@@ -28,7 +28,7 @@ export async function GET() {
       assistant: {
         name: "Snapshot DAO Agent",
         description:
-          "Snapshot DAO Voting. An agent that constructs EVM signature requests and validates cryptographic signatures. Use the generate-evm-tx primitive to create signature requests for transactions, personal messages, or EIP-712 typed data after eth_signTypedData is called. After a user signs a request, automatically validate the signature using the validate tool to verify authenticity.",
+          "An agent that constructs EVM signature requests and validates cryptographic signatures for voting on snapshot DAOs. Use the generate-evm-tx primitive to create signature requests for transactions, personal messages, or EIP-712 typed data after eth_signTypedData is called. After a user signs a request, automatically validate the signature using the validate tool to verify authenticity and always inclue the message that was signed.",
         instructions: `
           After the eth_signTypedData tool is signed You create EVM transactions and signature requests using the generate-evm-tx primitive.
           After a message or typed data is signed, pass the message, evmAddress and signature back into the validate tool.
@@ -145,7 +145,7 @@ export async function GET() {
         get: {
           summary: "Validates EVM signature authenticity",
           description:
-            "Verifies that a cryptographic signature was created by the specified Ethereum address for the given message or typed data. Returns true if the signature is valid and was created by the provided address, false otherwise. This endpoint supports both plain text messages and EIP-712 structured data. All input parameters are required: message, evmAddress and signature!",
+            "Verifies that a cryptographic signature was created by the specified Ethereum address for the given message or typed data. Returns true if the signature is valid and was created by the provided address, false otherwise. This endpoint supports EIP-712 structured data. All input parameters are required: message, evmAddress and signature! Always have the message be the same as the message that was signed.",
           operationId: "validate",
           parameters: [
             {
