@@ -19,7 +19,7 @@ export async function GET() {
     },
     servers: [
       {
-        url: "https://snapshot-agent.vercel.app/"
+        url: "https://snapshot-agent-theta.vercel.app/"
       }
     ],
     "x-mb": {
