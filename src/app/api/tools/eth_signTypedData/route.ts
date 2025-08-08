@@ -54,7 +54,7 @@ export async function GET(request: Request) {
         timestamp: Math.floor(Date.now() / 1000),
         proposal: proposalId,
         choice: Number(choice),
-        reason: "",
+        reason: "No reason",
         app: "snapshot",
         metadata: JSON.stringify({}),
       },

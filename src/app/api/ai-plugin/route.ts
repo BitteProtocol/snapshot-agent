@@ -61,50 +61,12 @@ export async function GET() {
           },
         },
       },
-      "/api/tools/eth_sign": {
-        get: {
-          summary: "returns non-trivial eth_sign request",
-          description:
-            "Constructs eth_sign payload based on user's input message (to sign) but have proposalId as a parameter.",
-          operationId: "eth_sign",
-          parameters: [
-            { $ref: "#/components/parameters/message" },
-            { $ref: "#/components/parameters/evmAddress" },
-            {
-              name: "proposalId",
-              in: "query",
-              required: true,
-              schema: {
-                type: "string"
-              },
-              description: "The ID of the proposal to vote on"
-            },
-          ],
-          responses: {
-            "200": { $ref: "#/components/responses/SignRequestResponse200" },
-          },
-        },
-      },
-      "/api/tools/personal_sign": {
-        get: {
-          summary: "returns non-trivial eth_sign request",
-          description:
-            "Constructs personal_sign payload based on user's input message (to sign).",
-          operationId: "personal_sign",
-          parameters: [
-            { $ref: "#/components/parameters/message" },
-            { $ref: "#/components/parameters/evmAddress" },
-          ],
-          responses: {
-            "200": { $ref: "#/components/responses/SignRequestResponse200" },
-          },
-        },
-      },
+
       "/api/tools/eth_signTypedData": {
         get: {
           summary: "Used for voting on a proposal, returns EIP-712 typed data non-trivial eth_signTypedData request and genate a signature request.",
           description:
-            "When a vote is made, Constructs signable (expired) eth_signTypedData EIP-712 payload and immidiately call the generate-evm-tx tool with the payload to get a signature request.",
+            "When a vote is made, Constructs signable (expired) eth_signTypedData EIP-712 payload and ALWAYS generate an EVM transaction immidiately by calling the generate-evm-tx tool with the payload to get a signature request.",
           operationId: "eth_signTypedData",
           parameters: [
             { $ref: "#/components/parameters/evmAddress" },
