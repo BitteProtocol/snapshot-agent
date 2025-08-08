@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { ACCOUNT_ID, BASE_CHAIN_ID, PLUGIN_URL } from "../../config";
+import { BASE_CHAIN_ID } from "../../config";
 import {
   chainIdParam,
   addressParam,
@@ -19,8 +19,8 @@ export async function GET() {
     },
     servers: [
       {
-        url: "https://snapshot-agent-theta.vercel.app/"
-      }
+        url: "https://snapshot-agent-theta.vercel.app/",
+      },
     ],
     "x-mb": {
       "account-id": "0x66268791B55e1F5fA585D990326519F101407257",
@@ -28,16 +28,17 @@ export async function GET() {
       assistant: {
         name: "Snapshot DAO Agent",
         description:
-          "An agent that constructs EVM signature requests and validates cryptographic signatures for voting on snapshot DAOs. Use the generate-evm-tx primitive to create signature requests for transactions, personal messages, or EIP-712 typed data after eth_signTypedData is called. After a user signs a request, automatically validate the signature using the validate tool to verify authenticity and always inclue the message that was signed.",
+          "An agent that constructs EVM signature requests and validates cryptographic signatures for voting on snapshot DAOs. Use the generate-evm-tx primitive to create signature requests for transactions, personal messages, or EIP-712 typed data after eth_signTypedData is called. After a user signs a request, automatically validate the signature using the validate tool to verify authenticity and always include the stringified typedData that was signed.",
         instructions: `
           After the eth_signTypedData tool is signed You create EVM transactions and signature requests using the generate-evm-tx primitive.
-          After a message or typed data is signed, pass the message, evmAddress and signature back into the validate tool.
+          After a message or typed data is signed, pass the stringified message, evmAddress and signature back into the validate tool.
           To validate a signature, you must provide three pieces of information: 
-          1) REQUIRED: the original message/data that was signed, 
+          1) REQUIRED: the original stringified typedData that was signed, 
           2) REQUIRED: the Ethereum address that allegedly created the signature, and 
           3) REQUIRED: the signature itself (65-byte hex string starting with 0x). 
         `,
-        image: "https://pbs.twimg.com/profile_images/1835017202023776259/0SESZlTn_400x400.jpg",
+        image:
+          "https://pbs.twimg.com/profile_images/1835017202023776259/0SESZlTn_400x400.jpg",
         repo: "https://github.com/BitteProtocol/snapshot-agent",
         categories: ["DAO"],
         tools: [{ type: "generate-evm-tx" }],
@@ -64,9 +65,10 @@ export async function GET() {
 
       "/api/tools/eth_signTypedData": {
         get: {
-          summary: "Used for voting on a proposal, returns EIP-712 typed data non-trivial eth_signTypedData request and genate a signature request.",
+          summary:
+            "Used for voting on a proposal, returns EIP-712 typed data non-trivial eth_signTypedData request and genate a signature request.",
           description:
-            "When a vote is made, Constructs signable (expired) eth_signTypedData EIP-712 as the origional message payload and ALWAYS generate an EVM transaction immidiately by calling the generate-evm-tx tool with the payload to get a signature request. Make sure the messgage is the same as the message that was signed and always send this to the verified tool when it's called.",
+            "When a vote is made, Constructs signable (expired) eth_signTypedData EIP-712 as the original message payload and ALWAYS generate an EVM transaction immediately by calling the generate-evm-tx tool with the payload to get a signature request. Make sure the stringified typedData message is the same as the message that was signed and always send this stringified typedData to the validate tool when it's called.",
           operationId: "eth_signTypedData",
           parameters: [
             { $ref: "#/components/parameters/message" },
@@ -76,27 +78,29 @@ export async function GET() {
               in: "query",
               required: true,
               schema: {
-                type: "string"
+                type: "string",
               },
-              description: "The ID of the proposal to vote on"
+              description: "The ID of the proposal to vote on",
             },
             {
               name: "space",
               in: "query",
               required: true,
               schema: {
-                type: "string"
+                type: "string",
               },
-              description: "The name of the space to vote on, also known as the DAO usually ends with .eth"
+              description:
+                "The name of the space to vote on, also known as the DAO usually ends with .eth",
             },
             {
               name: "choice",
               in: "query",
               required: true,
               schema: {
-                type: "string"
+                type: "string",
               },
-              description: "for or against the proposal usually 1 for a yes or for or 2 for against or no"
+              description:
+                "for or against the proposal usually 1 for a yes or for or 2 for against or no",
             },
           ],
           responses: {
@@ -108,7 +112,7 @@ export async function GET() {
         get: {
           summary: "Validates EVM signature authenticity",
           description:
-            "Verifies that a cryptographic signature was created by the specified Ethereum address for the given message or typed data. Returns true if the signature is valid and was created by the provided address, false otherwise. This endpoint supports EIP-712 structured data. All input parameters are required: message, evmAddress and signature! Always have the message be the same as the message that was signed.",
+            "Verifies that a cryptographic signature was created by the specified Ethereum address for the given stringified typed data. Returns true if the signature is valid and was created by the provided address, false otherwise. This endpoint supports EIP-712 structured data provided as a JSON string. All input parameters are required: message (as stringified typedData), evmAddress and signature! Always have the message be the same stringified typedData that was signed.",
           operationId: "validate",
           parameters: [
             {
@@ -116,30 +120,10 @@ export async function GET() {
               in: "query",
               required: true,
               description:
-                "The original message or data that was signed. For EIP-712 typed data, provide a JSON object with 'domain', 'types', 'message', and 'primaryType' fields. This must be the exact same data that was originally signed.",
+                "The original stringified EIP-712 typed data that was signed. This should be a JSON string containing the exact same EIP-712 typed data object that was originally signed, including 'domain', 'types', 'message', and 'primaryType' fields.",
               schema: {
-                type: "object",
-                description: "EIP-712 TypedData object",
-                required: ["types", "primaryType", "domain", "message"],
-                properties: {
-                  types: {
-                    type: "object",
-                    additionalProperties: {
-                      type: "array",
-                      items: {
-                        type: "object",
-                        required: ["name", "type"],
-                        properties: {
-                          name: { type: "string" },
-                          type: { type: "string" },
-                        },
-                      },
-                    },
-                  },
-                  primaryType: { type: "string" },
-                  domain: { type: "object" },
-                  message: { type: "object" },
-                },
+                type: "string",
+                description: "Stringified EIP-712 TypedData JSON object",
               },
             },
             { $ref: "#/components/parameters/evmAddress" },
@@ -175,7 +159,8 @@ export async function GET() {
       "/api/tools/get-proposal": {
         get: {
           summary: "Get Proposal",
-          description: "Get proposals and make sure the proposal ID easy to find to send to vote tool",
+          description:
+            "Get proposals and make sure the proposal ID easy to find to send to vote tool",
           operationId: "get-proposal",
           parameters: [
             {
@@ -183,18 +168,19 @@ export async function GET() {
               in: "query",
               required: true,
               schema: {
-                type: "string"
+                type: "string",
               },
-              description: "The name of the space to vote on, also known as the DAO usually ends with .eth"
+              description:
+                "The name of the space to vote on, also known as the DAO usually ends with .eth",
             },
             {
               name: "evmAddress",
               in: "query",
               required: true,
               schema: {
-                type: "string"
+                type: "string",
               },
-              description: "The user's EVM address"
+              description: "The user's EVM address",
             },
             {
               name: "state",
@@ -202,10 +188,10 @@ export async function GET() {
               required: true,
               schema: {
                 type: "string",
-                enum: ["closed", "active", "open", "pending"]
+                enum: ["closed", "active", "open", "pending"],
               },
-              description: "The state of the proposal"
-            }
+              description: "The state of the proposal",
+            },
           ],
           responses: {
             "200": {
@@ -218,13 +204,11 @@ export async function GET() {
                       result: {
                         type: "string",
                         description: "The result of proposals made by account",
-                      }
-                    }
-                  }
-                }
+                      },
+                    },
+                  },
+                },
               },
-
-
             },
             "500": {
               description: "Error response",
@@ -235,14 +219,14 @@ export async function GET() {
                     properties: {
                       error: {
                         type: "string",
-                        description: "Error message"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
+                        description: "Error message",
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
       },
     },
@@ -254,30 +238,10 @@ export async function GET() {
           in: "query",
           required: true,
           description:
-            "The original message or data that was signed. For EIP-712 typed data, provide a JSON object with 'domain', 'types', 'message', and 'primaryType' fields. This must be the exact same data that was originally signed.",
+            "The original stringified EIP-712 typed data that was signed. This should be a JSON string containing the exact same EIP-712 typed data object that was originally signed, including 'domain', 'types', 'message', and 'primaryType' fields.",
           schema: {
-            type: "object",
-            description: "EIP-712 TypedData object",
-            required: ["types", "primaryType", "domain", "message"],
-            properties: {
-              types: {
-                type: "object",
-                additionalProperties: {
-                  type: "array",
-                  items: {
-                    type: "object",
-                    required: ["name", "type"],
-                    properties: {
-                      name: { type: "string" },
-                      type: { type: "string" },
-                    },
-                  },
-                },
-              },
-              primaryType: { type: "string" },
-              domain: { type: "object" },
-              message: { type: "object" },
-            },
+            type: "string",
+            description: "Stringified EIP-712 TypedData JSON object",
           },
         },
         numSuccess: {
