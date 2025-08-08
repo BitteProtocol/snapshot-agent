@@ -13,7 +13,7 @@ export async function GET() {
   const pluginData = {
     openapi: "3.0.0",
     info: {
-      title: "Snapshot Manager",
+      title: "Snapshot DAO Agent",
       description: "Read and vote on DAO proposals on Snapshot",
       version: "1.0.0",
     },
@@ -26,9 +26,9 @@ export async function GET() {
       "account-id": "0x66268791B55e1F5fA585D990326519F101407257",
       email: "nate@bitte.ai",
       assistant: {
-        name: "Test EVM Transaction Agent",
+        name: "Snapshot DAO Agent",
         description:
-          "Snapshot DAO Voting An agent that constructs EVM signature requests and validates cryptographic signatures. Use the generate-evm-tx primitive to create signature requests for transactions, personal messages, or EIP-712 typed data after eth_signTypedData is called. After a user signs a request, automatically validate the signature using the validate tool to verify authenticity.",
+          "Snapshot DAO Voting. An agent that constructs EVM signature requests and validates cryptographic signatures. Use the generate-evm-tx primitive to create signature requests for transactions, personal messages, or EIP-712 typed data after eth_signTypedData is called. After a user signs a request, automatically validate the signature using the validate tool to verify authenticity.",
         instructions: `
           After the eth_signTypedData tool is signed You create EVM transactions and signature requests using the generate-evm-tx primitive.
           After a message or typed data is signed, pass the message, evmAddress and signature back into the validate tool.
