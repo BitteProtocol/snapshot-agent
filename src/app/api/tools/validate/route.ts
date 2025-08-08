@@ -17,12 +17,12 @@ type Message = {
 
 
 
-async function submitVoteToSnapshot(account: string, message: Message, signature: string) {
+async function submitVoteToSnapshot(account: string, message: string, signature: string) {
   try {
     // Prepare the payload for Snapshot
     const payload = {
       address: account,
-      msg: JSON.stringify(message),
+      data: JSON.parse(message),
       sig: signature
     };
     console.log("validate ------payload", payload);
@@ -33,6 +33,7 @@ async function submitVoteToSnapshot(account: string, message: Message, signature
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
+        'authorization': 'Bearer f51ccea7608eb627e3fe1049377dcd6bd01216a2551ff7c391d5b5faaaf41e5f',
       },
       body: JSON.stringify(payload)
     });
@@ -68,7 +69,7 @@ export async function GET(request: Request) {
     );
 
     try {
-      await submitVoteToSnapshot(evmAddress, JSON.parse(message as string).message, normalizeSignature(signature));
+      await submitVoteToSnapshot(evmAddress, message, normalizeSignature(signature));
       return NextResponse.json({ valid }, { status: 200 });
     } catch (error) {
       console.error('Error submitting vote:', error);

@@ -5,7 +5,11 @@ import { GraphQLClient, gql } from 'graphql-request';
 const SNAPSHOT_GRAPHQL_ENDPOINT = 'https://hub.snapshot.org/graphql';
 
 // Initialize GraphQL client
-const client = new GraphQLClient(SNAPSHOT_GRAPHQL_ENDPOINT);
+const client = new GraphQLClient(SNAPSHOT_GRAPHQL_ENDPOINT, {
+  headers: {
+    authorization: 'Bearer f51ccea7608eb627e3fe1049377dcd6bd01216a2551ff7c391d5b5faaaf41e5f',
+  }
+});
 
 type Proposal = { id: string, title: string, state: string, author: string, space: { name: string }, start: number, end: number, scores_total: string, choices: string[], scores_updated: number }
 
