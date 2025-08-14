@@ -348,19 +348,19 @@ export async function GET() {
       },
       "/api/tools/get-spaces": {
         get: {
-          summary: "Get Info on DAOs or spaces that the user is a member of",
+          summary: "Get space or DAO data from a search term, they might be looking for a space by uniswapgovernance.eth but might not know the exact name ending in .eth",
           description:
             "Get DAO's also known as spaces that the user is a member of",
           operationId: "get-spaces",
           parameters: [
             {
-              name: "evmAddress",
+              name: "spaceSearch",
               in: "query",
               required: true,
               schema: {
                 type: "string",
               },
-              description: "The user's EVM address",
+              description: "The search term when a user is looking for a space by something likeuniswapgovernance.eth but might not know the exact name ending in .eth and wil ask for uniswap or other spaces",
             },
           ],
           responses: {

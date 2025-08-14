@@ -24,18 +24,18 @@ type Space = {
   plugins: string[]
 }
 
-async function fetchSpacesWithGraphQLRequest(evmAddress: string) {
+async function fetchSpacesWithGraphQLRequest(spaceSearch: string) {
 
   // Define the GraphQL query
   const GET_SPACES_QUERY = gql`
-    query GetSpaces {
+    query GetSpaces($spaceSearch: String!) {
      spaces(
         first: 20,
         skip: 0,
         orderBy: "created",
         orderDirection: asc,
         where: {
-          members_contains: [${evmAddress}]
+          search: $spaceSearch
         }
       ) {
         id
@@ -60,24 +60,16 @@ async function fetchSpacesWithGraphQLRequest(evmAddress: string) {
 
   try {
     console.log('Fetching proposals using graphql-request...');
-    const data = await client.request<{ spaces: Space[] }>(GET_SPACES_QUERY);
+    const data = await client.request<{ spaces: Space[] }>(GET_SPACES_QUERY, { spaceSearch });
     console.log('Success! Retrieved', data, 'proposals');
-    return data.spaces;
+    return data;
   } catch (error) {
     console.error('Error fetching spaces:', error);
     throw error;
   }
 }
 
-function formatProposal(proposal: Space) {
-  return {
-    id: proposal.id,
-    name: proposal.name,
-    about: proposal.about,
-    network: proposal.network,
 
-  };
-}
 
 
 /**
@@ -89,9 +81,9 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
 
 
-  console.log('PPPPPPPPPPPn----', searchParams);
+  console.log('SPACE0000000----', searchParams);
 
-  const evmAddress = searchParams.get("evmAddress");
+  const spaceSearch = searchParams.get("spaceSearch");
 
 
 
@@ -99,7 +91,7 @@ export async function GET(request: Request) {
     // Choose your preferred method:
 
     // Method 1: Using graphql-request (recommended)
-    const spaces = await fetchSpacesWithGraphQLRequest(evmAddress || '');
+    const spaces = await fetchSpacesWithGraphQLRequest(spaceSearch || '');
 
     // Method 2: Using fetch API directly
     // const proposals = await fetchProposalsWithFetch();
@@ -109,10 +101,10 @@ export async function GET(request: Request) {
 
     // Process and display results
     console.log('\n=== PROPOSAL RESULTS ===');
-    spaces.forEach((proposal: Space, index: number) => {
-      const formatted = formatProposal(proposal);
-      console.log(`   ID: ${formatted}`);
-    });
+    // spaces.forEach((proposal: Space, index: number) => {
+    //   const formatted = formatProposal(proposal);
+    //   console.log(`   ID: ${formatted}`);
+    // });
 
 
     return NextResponse.json({ spaces });
