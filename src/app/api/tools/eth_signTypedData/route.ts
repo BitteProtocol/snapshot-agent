@@ -29,7 +29,7 @@ export async function GET(request: Request) {
       domain: {
         name: "snapshot",
         version: "0.1.4",
-        chainId: network
+        chainId: parseInt(network || '1', 10),
       },
       types: {
         Vote: [
@@ -55,17 +55,17 @@ export async function GET(request: Request) {
         timestamp: Math.floor(Date.now() / 1000),
         proposal: proposalId,
         choice: Number(choice),
-        reason: "No reason",
+        reason: "",
         app: "snapshot",
         metadata: JSON.stringify({}),
       },
     });
 
-
+    console.log("dataString---------------", dataString);
     return NextResponse.json(
       {
         transaction: {
-          chainId: network,
+          chainId: parseInt(network || '1', 10),
           method: "eth_signTypedData_v4",
           params: [evmAddress, dataString],
         },
