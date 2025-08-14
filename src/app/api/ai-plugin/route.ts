@@ -83,6 +83,15 @@ export async function GET() {
               description: "The ID of the proposal to vote on",
             },
             {
+              name: "network",
+              in: "query",
+              required: true,
+              schema: {
+                type: "string",
+              },
+              description: "The network id of the proposal or space so base is 8453 and Ethereum is 1",
+            },
+            {
               name: "space",
               in: "query",
               required: true,
@@ -156,12 +165,12 @@ export async function GET() {
           },
         },
       },
-      "/api/tools/get-proposal": {
+      "/api/tools/get-proposals": {
         get: {
-          summary: "Get Proposal",
+          summary: "Get Proposal from a list of proposals",
           description:
             "Get proposals and make sure the proposal ID easy to find to send to vote tool",
-          operationId: "get-proposal",
+          operationId: "get-proposals",
           parameters: [
             {
               name: "accountId",
@@ -191,6 +200,167 @@ export async function GET() {
                 enum: ["closed", "active", "open", "pending"],
               },
               description: "The state of the proposal",
+            },
+          ],
+          responses: {
+            "200": {
+              description: "Successful response",
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      result: {
+                        type: "string",
+                        description: "The result of proposals made by account",
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            "500": {
+              description: "Error response",
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      error: {
+                        type: "string",
+                        description: "Error message",
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+      "/api/tools/get-proposal": {
+        get: {
+          summary: "Get Proposal from a list of proposals",
+          description:
+            "Get more data on just one proposal",
+          operationId: "get-proposal",
+          parameters: [
+            {
+              name: "proposalId",
+              in: "query",
+              required: true,
+              schema: {
+                type: "string",
+              },
+              description:
+                "The ID of the proposal to get more data on",
+            },
+          ],
+          responses: {
+            "200": {
+              description: "Successful response",
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      result: {
+                        type: "string",
+                        description: "The result of proposals made by account",
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            "500": {
+              description: "Error response",
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      error: {
+                        type: "string",
+                        description: "Error message",
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+      "/api/tools/get-votes": {
+        get: {
+          summary: "Get votes from a proposal",
+          description:
+            "Looks up the vote details on a proposal",
+          operationId: "get-votes",
+          parameters: [
+            {
+              name: "proposalId",
+              in: "query",
+              required: true,
+              schema: {
+                type: "string",
+              },
+              description:
+                "The ID of the proposal to get more vote data on",
+            },
+          ],
+          responses: {
+            "200": {
+              description: "Successful response",
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      result: {
+                        type: "string",
+                        description: "The result of proposals made by account",
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            "500": {
+              description: "Error response",
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      error: {
+                        type: "string",
+                        description: "Error message",
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+      "/api/tools/get-spaces": {
+        get: {
+          summary: "Get Info on DAOs or spaces that the user is a member of",
+          description:
+            "Get DAO's also known as spaces that the user is a member of",
+          operationId: "get-spaces",
+          parameters: [
+            {
+              name: "evmAddress",
+              in: "query",
+              required: true,
+              schema: {
+                type: "string",
+              },
+              description: "The user's EVM address",
             },
           ],
           responses: {

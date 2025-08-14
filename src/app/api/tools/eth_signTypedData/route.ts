@@ -17,6 +17,7 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const proposalId = searchParams.get('proposalId');
     const space = searchParams.get('space');
+    const network = searchParams.get('network');
     const choice = searchParams.get('choice');
     console.log("starthere=====", searchParams);
 
@@ -28,7 +29,7 @@ export async function GET(request: Request) {
       domain: {
         name: "snapshot",
         version: "0.1.4",
-        chainId: BASE_CHAIN_ID
+        chainId: network
       },
       types: {
         Vote: [
@@ -60,11 +61,11 @@ export async function GET(request: Request) {
       },
     });
 
-    console.log("dataString---------------", dataString);
+
     return NextResponse.json(
       {
         transaction: {
-          chainId: BASE_CHAIN_ID,
+          chainId: network,
           method: "eth_signTypedData_v4",
           params: [evmAddress, dataString],
         },
