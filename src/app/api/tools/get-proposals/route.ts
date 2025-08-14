@@ -17,13 +17,13 @@ async function fetchProposalsWithGraphQLRequest(accountId: string, state: string
 
   // Define the GraphQL query
   const GET_PROPOSALS_QUERY = gql`
-    query GetProposals {
+    query GetProposals($accountId: String!, $state: String!) {
       proposals(
         first: 20,
         skip: 0,
         where: {
-          space_in: ["${accountId}"],
-          state: "${state}"
+          space_in: [$accountId],
+          state: $state
         },
         orderBy: "created",
         orderDirection: desc
@@ -52,7 +52,7 @@ async function fetchProposalsWithGraphQLRequest(accountId: string, state: string
 
   try {
     console.log('Fetching proposals using graphql-request...');
-    const data = await client.request<{ proposals: Proposal[] }>(GET_PROPOSALS_QUERY);
+    const data = await client.request<{ proposals: Proposal[] }>(GET_PROPOSALS_QUERY, { accountId, state });
     console.log('Success! Retrieved', data.proposals, 'proposals');
     return data.proposals;
   } catch (error) {
