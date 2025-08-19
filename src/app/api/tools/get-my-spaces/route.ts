@@ -11,41 +11,39 @@ const client = new GraphQLClient(SNAPSHOT_GRAPHQL_ENDPOINT, {
   }
 });
 
-type Proposal = { id: string, title: string, state: string, author: string, space: { name: string }, start: number, end: number, scores_total: string, choices: string[], scores_updated: number }
 
-async function fetchProposalsWithGraphQLRequest(proposalId: string) {
+
+type Follow = { follower: string, space: { id: string }, created: number }
+
+async function fetchProposalsWithGraphQLRequest(evmAddress: string) {
 
   // Define the GraphQL query
-  const GET_PROPOSAL_QUERY = gql`
-    query GetProposal($proposalId: String!) {
-        proposal(id: $proposalId) {
+  const GET_PROPOSALS_QUERY = gql`
+    query GetProposals($evmAddress: String!) {
+      follows(
+        where: {
+          follower: $evmAddress
+        }
+      ) {
+        follower
+        space {
           id
-          title
-          network
-          strategies {
-            name
-            network
-            params
-          }
-          space {
-            id
-            name
-          }
+        }
+        created
       }
     }
     `;
 
   try {
     console.log('Fetching proposals using graphql-request...');
-    const data = await client.request<{ proposal: Proposal }>(GET_PROPOSAL_QUERY, { proposalId });
-    console.log('Success! Retrieved', data);
-    return data;
+    const data = await client.request<{ follows: Follow[] }>(GET_PROPOSALS_QUERY, { evmAddress });
+    console.log('Success! Retrieved', data.follows, 'follows');
+    return data.follows;
   } catch (error) {
     console.error('Error fetching proposals:', error);
     throw error;
   }
 }
-
 
 
 
@@ -57,7 +55,7 @@ export async function GET(request: Request) {
 
   const { searchParams } = new URL(request.url);
 
-  const proposalId = searchParams.get('proposalId');
+  const evmAddress = searchParams.get('evmAddress');
 
   console.log('PPPPPPPPPPPn----', searchParams);
 
@@ -66,7 +64,7 @@ export async function GET(request: Request) {
     // Choose your preferred method:
 
     // Method 1: Using graphql-request (recommended)
-    const proposal = await fetchProposalsWithGraphQLRequest(proposalId || '');
+    const follows = await fetchProposalsWithGraphQLRequest(evmAddress || '');
 
     // Method 2: Using fetch API directly
     // const proposals = await fetchProposalsWithFetch();
@@ -75,7 +73,7 @@ export async function GET(request: Request) {
     // const proposals = await fetchProposalsWithAxios();
 
     // Process and display results
-    console.log('\n=== PROPOSAL RESULTS ===', proposal);
+    // console.log('\n=== PROPOSAL RESULTS ===');
     // proposals.forEach((proposal: Proposal, index: number) => {
     //   const formatted = formatProposal(proposal);
     //   console.log(`\n${index + 1}. ${formatted.title}`);
@@ -89,7 +87,7 @@ export async function GET(request: Request) {
     // });
 
 
-    return NextResponse.json({ proposal });
+    return NextResponse.json({ follows });
   } catch (error) {
     console.error('Failed to fetch proposals:', error);
     process.exit(1);

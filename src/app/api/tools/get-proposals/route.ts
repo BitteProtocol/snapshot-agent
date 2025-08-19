@@ -13,16 +13,16 @@ const client = new GraphQLClient(SNAPSHOT_GRAPHQL_ENDPOINT, {
 
 type Proposal = { id: string, title: string, state: string, author: string, space: { name: string }, start: number, end: number, scores_total: string, choices: string[], scores_updated: number, network: string }
 
-async function fetchProposalsWithGraphQLRequest(accountId: string, state: string) {
+async function fetchProposalsWithGraphQLRequest(spaceId: string, state: string) {
 
   // Define the GraphQL query
   const GET_PROPOSALS_QUERY = gql`
-    query GetProposals($accountId: String!, $state: String!) {
+    query GetProposals($spaceId: String!, $state: String!) {
       proposals(
         first: 20,
         skip: 0,
         where: {
-          space_in: [$accountId],
+          space_in: [$spaceId],
           state: $state
         },
         orderBy: "created",
@@ -52,7 +52,7 @@ async function fetchProposalsWithGraphQLRequest(accountId: string, state: string
 
   try {
     console.log('Fetching proposals using graphql-request...');
-    const data = await client.request<{ proposals: Proposal[] }>(GET_PROPOSALS_QUERY, { accountId, state });
+    const data = await client.request<{ proposals: Proposal[] }>(GET_PROPOSALS_QUERY, { spaceId, state });
     console.log('Success! Retrieved', data.proposals, 'proposals');
     return data.proposals;
   } catch (error) {
@@ -60,21 +60,6 @@ async function fetchProposalsWithGraphQLRequest(accountId: string, state: string
     throw error;
   }
 }
-
-// function formatProposal(proposal: Proposal) {
-//   return {
-//     id: proposal.id,
-//     title: proposal.title,
-//     state: proposal.state,
-//     author: proposal.author,
-//     space: proposal.space.name,
-//     startDate: new Date(proposal.start * 1000).toISOString(),
-//     endDate: new Date(proposal.end * 1000).toISOString(),
-//     totalScore: proposal.scores_total,
-//     choices: proposal.choices,
-//     scoresUpdated: proposal.scores_updated ? new Date(proposal.scores_updated * 1000).toISOString() : null
-//   };
-// }
 
 
 /**
@@ -85,7 +70,7 @@ export async function GET(request: Request) {
 
   const { searchParams } = new URL(request.url);
 
-  const accountId = searchParams.get('accountId');
+  const spaceId = searchParams.get('spaceId');
   const state = searchParams.get("state");
 
   console.log('PPPPPPPPPPPn----', searchParams);
@@ -96,27 +81,7 @@ export async function GET(request: Request) {
     // Choose your preferred method:
 
     // Method 1: Using graphql-request (recommended)
-    const proposals = await fetchProposalsWithGraphQLRequest(accountId || '', state?.toString() || 'all');
-
-    // Method 2: Using fetch API directly
-    // const proposals = await fetchProposalsWithFetch();
-
-    // Method 3: Using axios (uncomment axios code above first)
-    // const proposals = await fetchProposalsWithAxios();
-
-    // Process and display results
-    // console.log('\n=== PROPOSAL RESULTS ===');
-    // proposals.forEach((proposal: Proposal, index: number) => {
-    //   const formatted = formatProposal(proposal);
-    //   console.log(`\n${index + 1}. ${formatted.title}`);
-    //   console.log(`   ID: ${formatted.id}`);
-    //   console.log(`   Author: ${formatted.author}`);
-    //   console.log(`   State: ${formatted.state}`);
-    //   console.log(`   Space: ${formatted.space}`);
-    //   console.log(`   Period: ${formatted.startDate} to ${formatted.endDate}`);
-    //   console.log(`   Total Score: ${formatted.totalScore}`);
-    //   console.log(`   Choices: ${formatted.choices.join(', ')}`);
-    // });
+    const proposals = await fetchProposalsWithGraphQLRequest(spaceId || '', state?.toString() || '');
 
 
     return NextResponse.json({ proposals });

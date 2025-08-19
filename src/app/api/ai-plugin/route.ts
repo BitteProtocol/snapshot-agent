@@ -173,7 +173,7 @@ export async function GET() {
           operationId: "get-proposals",
           parameters: [
             {
-              name: "accountId",
+              name: "spaceId",
               in: "query",
               required: true,
               schema: {
@@ -326,6 +326,59 @@ export async function GET() {
               },
               description:
                 "The ID of the proposal to get more data on",
+            },
+          ],
+          responses: {
+            "200": {
+              description: "Successful response",
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      result: {
+                        type: "string",
+                        description: "The result of proposals made by account",
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            "500": {
+              description: "Error response",
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      error: {
+                        type: "string",
+                        description: "Error message",
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+      "/api/tools/get-my-spaces": {
+        get: {
+          summary: "Get the spaces the user is following",
+          description:
+            "A list of all the spaces or DAOs the user is following. If a users wants to see open proposals they can use the get-proposals tool to get a list of open proposals on the spaces listed here",
+          operationId: "get-my-spaces",
+          parameters: [
+            {
+              name: "evmAddress",
+              in: "query",
+              required: true,
+              schema: {
+                type: "string",
+              },
+              description: "The user's EVM address",
             },
           ],
           responses: {
