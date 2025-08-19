@@ -1,15 +1,5 @@
 import { NextResponse } from "next/server";
-import { BASE_CHAIN_ID } from "@/src/app/config";
 import { SignMessageSchema } from "../../schema";
-
-const formatProposalId = (id: string) => {
-  // Remove 0x prefix if present
-  let cleanId = id.startsWith('0x') ? id.slice(2) : id;
-  // Pad to 64 characters (32 bytes) if needed
-  cleanId = cleanId.padStart(64, '0');
-  // Add 0x prefix
-  return '0x' + cleanId;
-};
 
 
 export async function GET(request: Request) {

@@ -292,6 +292,78 @@ export async function GET() {
           },
         },
       },
+      "/api/tools/get-voting-power": {
+        get: {
+          summary: "Get Proposal from a list of proposals",
+          description:
+            "Get the voting power of the user on a proposal",
+          operationId: "get-voting-power",
+          parameters: [
+            {
+              name: "evmAddress",
+              in: "query",
+              required: true,
+              schema: {
+                type: "string",
+              },
+              description: "The user's EVM address",
+            },
+            {
+              name: "space",
+              in: "query",
+              required: true,
+              schema: {
+                type: "string",
+              },
+              description: "The name of the space to vote on, also known as the DAO usually ends with .eth",
+            },
+            {
+              name: "proposalId",
+              in: "query",
+              required: true,
+              schema: {
+                type: "string",
+              },
+              description:
+                "The ID of the proposal to get more data on",
+            },
+          ],
+          responses: {
+            "200": {
+              description: "Successful response",
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      result: {
+                        type: "string",
+                        description: "The result of proposals made by account",
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            "500": {
+              description: "Error response",
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      error: {
+                        type: "string",
+                        description: "Error message",
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
       "/api/tools/get-votes": {
         get: {
           summary: "Get votes from a proposal",
