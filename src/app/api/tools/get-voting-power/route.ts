@@ -7,7 +7,7 @@ const SNAPSHOT_GRAPHQL_ENDPOINT = 'https://hub.snapshot.org/graphql';
 // Initialize GraphQL client
 const client = new GraphQLClient(SNAPSHOT_GRAPHQL_ENDPOINT, {
   headers: {
-    authorization: 'Bearer f51ccea7608eb627e3fe1049377dcd6bd01216a2551ff7c391d5b5faaaf41e5f',
+    authorization: `Bearer ${process.env.SNAPSHOT_API_KEY}`,
   }
 });
 
