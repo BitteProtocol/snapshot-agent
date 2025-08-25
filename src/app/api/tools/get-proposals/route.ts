@@ -30,18 +30,11 @@ async function fetchProposalsWithGraphQLRequest(spaceId: string, state: string) 
       ) {
         id
         title
-        body
         network
-        choices
         start
         end
         snapshot
         state
-        scores
-        scores_by_strategy
-        scores_total
-        scores_updated
-        author
         space {
           id
           name

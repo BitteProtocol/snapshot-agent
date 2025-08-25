@@ -28,9 +28,9 @@ export async function GET() {
       assistant: {
         name: "Snapshot DAO Agent",
         description:
-          "An agent that constructs EVM signature requests and validates cryptographic signatures for voting on snapshot DAOs. Use the generate-evm-tx primitive to create signature requests for transactions, personal messages, or EIP-712 typed data after eth_signTypedData is called. After a user signs a request, automatically validate the signature using the validate tool to verify authenticity and always include the stringified typedData that was signed.",
+          "An agent that constructs EVM signature requests and validates cryptographic signatures for voting on snapshot DAOs. Use the generate-evm-tx primitive to create signature requests for transactions, personal messages, or EIP-712 typed data after vote_sign is called. After a user signs a request, automatically validate the signature using the validate tool to verify authenticity and always include the stringified typedData that was signed.",
         instructions: `
-          After the eth_signTypedData tool is signed You create EVM transactions and signature requests using the generate-evm-tx primitive.
+          After the vote_sign tool is signed You create EVM transactions and signature requests using the generate-evm-tx primitive.
           After a message or typed data is signed, pass the stringified message, evmAddress and signature back into the validate tool.
           To validate a signature, you must provide three pieces of information: 
           1) REQUIRED: the original stringified typedData that was signed, 
@@ -46,30 +46,13 @@ export async function GET() {
       },
     },
     paths: {
-      "/api/tools/sendTransaction": {
-        get: {
-          summary: "returns non-trivial sendTransaction payloads",
-          description:
-            "Constructs non-trivial, zero-valued transactions to self",
-          operationId: "sendTransaction",
-          parameters: [
-            { $ref: "#/components/parameters/numSuccess" },
-            { $ref: "#/components/parameters/numFail" },
-            { $ref: "#/components/parameters/evmAddress" },
-          ],
-          responses: {
-            "200": { $ref: "#/components/responses/SignRequestResponse200" },
-          },
-        },
-      },
-
-      "/api/tools/eth_signTypedData": {
+      "/api/tools/vote-and-sign": {
         get: {
           summary:
-            "Used for voting on a proposal, returns EIP-712 typed data non-trivial eth_signTypedData request and genate a signature request.",
+            "Used for voting on a proposal, returns EIP-712 typed data non-trivial vote_sign request and genate a signature request.",
           description:
-            "When a vote is made, Constructs signable (expired) eth_signTypedData EIP-712 as the original message payload and ALWAYS generate an EVM transaction immediately by calling the generate-evm-tx tool with the payload to get a signature request. Make sure the stringified typedData message is the same as the message that was signed and always send this stringified typedData to the validate tool when it's called.",
-          operationId: "eth_signTypedData",
+            "When a vote is made, Constructs signable (expired) vote_sign EIP-712 as the original message payload and ALWAYS generate an EVM transaction immediately by calling the generate-evm-tx tool with the payload to get a signature request. Make sure the stringified typedData message is the same as the message that was signed and always send this stringified typedData to the validate tool when it's called.",
+          operationId: "vote_sign",
           parameters: [
             { $ref: "#/components/parameters/message" },
             { $ref: "#/components/parameters/evmAddress" },
@@ -167,7 +150,7 @@ export async function GET() {
       },
       "/api/tools/get-proposals": {
         get: {
-          summary: "Get Proposal from a list of proposals",
+          summary: "Get Proposal from a list of proposals and list the space name network and title",
           description:
             "Get proposals and make sure the proposal ID easy to find to send to vote tool",
           operationId: "get-proposals",

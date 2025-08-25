@@ -56,7 +56,7 @@ export async function GET(request: Request) {
       {
         transaction: {
           chainId: parseInt(network || '1', 10),
-          method: "eth_signTypedData_v4",
+          method: "vote_sign_v4",
           params: [evmAddress, dataString],
         },
         meta: `Sign Vote Typed Data.`,
@@ -64,7 +64,7 @@ export async function GET(request: Request) {
       { status: 200 },
     );
   } catch (error) {
-    const publicMessage = "Error generating eth_signTypedData payload:";
+    const publicMessage = "Error generating vote_sign payload:";
     console.error(publicMessage, error);
     return NextResponse.json({ error: publicMessage }, { status: 500 });
   }
