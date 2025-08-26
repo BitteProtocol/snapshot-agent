@@ -22,6 +22,24 @@ async function fetchProposalsWithGraphQLRequest(proposalId: string) {
           id
           title
           network
+          choices
+          body
+          scores
+          scores_by_strategy
+          scores_total
+          scores_updated
+          author
+          start
+          end
+          snapshot
+          state
+          link
+          votes
+          app
+          scores_total
+          author
+          network
+          discussion
           strategies {
             name
             network

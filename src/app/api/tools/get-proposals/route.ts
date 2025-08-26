@@ -7,7 +7,7 @@ const SNAPSHOT_GRAPHQL_ENDPOINT = 'https://hub.snapshot.org/graphql';
 // Initialize GraphQL client
 const client = new GraphQLClient(SNAPSHOT_GRAPHQL_ENDPOINT, {
   headers: {
-    authorization: `Bearer ${process.env.SNAPSHOT_API_KEY}`,
+    authorization: 'Bearer f51ccea7608eb627e3fe1049377dcd6bd01216a2551ff7c391d5b5faaaf41e5f',
   }
 });
 
@@ -19,7 +19,7 @@ async function fetchProposalsWithGraphQLRequest(spaceId: string, state: string) 
   const GET_PROPOSALS_QUERY = gql`
     query GetProposals($spaceId: String!, $state: String!) {
       proposals(
-        first: 20,
+        first: 3,
         skip: 0,
         where: {
           space_in: [$spaceId],
@@ -31,9 +31,9 @@ async function fetchProposalsWithGraphQLRequest(spaceId: string, state: string) 
         id
         title
         network
+        choices
         start
         end
-        snapshot
         state
         space {
           id

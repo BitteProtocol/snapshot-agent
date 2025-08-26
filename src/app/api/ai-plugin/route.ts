@@ -49,7 +49,7 @@ export async function GET() {
       "/api/tools/vote-and-sign": {
         get: {
           summary:
-            "Used for voting on a proposal, returns EIP-712 typed data non-trivial vote_sign request and genate a signature request.",
+            "Used for voting on a proposal, returns EIP-712 typed data non-trivial vote_sign request and genate a signature request. The choice might be a string like 'for' or 'against' but always use the number 1 for for and 2 for against or the corrisponding number for the choice",
           description:
             "When a vote is made, Constructs signable (expired) vote_sign EIP-712 as the original message payload and ALWAYS generate an EVM transaction immediately by calling the generate-evm-tx tool with the payload to get a signature request. Make sure the stringified typedData message is the same as the message that was signed and always send this stringified typedData to the validate tool when it's called.",
           operationId: "vote_sign",
@@ -92,7 +92,7 @@ export async function GET() {
                 type: "string",
               },
               description:
-                "for or against the proposal usually 1 for a yes or for or 2 for against or no",
+                "The number associated with the choice, usually 1 for a yes or for or 2 for against or no or for more coises by a custom string this should be the number of the choice associated with the choice",
             },
           ],
           responses: {
@@ -277,9 +277,9 @@ export async function GET() {
       },
       "/api/tools/get-voting-power": {
         get: {
-          summary: "Get Proposal from a list of proposals",
+          summary: "Checks if the user has voting power on a proposal and is able to vote now.",
           description:
-            "Get the voting power of the user on a proposal",
+            "Get the voting power of the user on a proposal if they are able to vote now explain that they need to have the token balance to vote and the proposal before the propsal is created if they are able to vote now. If they wwant to vote and have the voting power run the vote-and-sign tool automaically after. ",
           operationId: "get-voting-power",
           parameters: [
             {
