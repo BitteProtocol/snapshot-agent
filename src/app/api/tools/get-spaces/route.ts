@@ -43,17 +43,6 @@ async function fetchSpacesWithGraphQLRequest(spaceSearch: string) {
         about
         network
         symbol
-        strategies {
-          name
-          params
-        }
-        admins
-        members
-        filters {
-          minScore
-          onlyMembers
-        }
-        plugins
       }
     }
     `;
