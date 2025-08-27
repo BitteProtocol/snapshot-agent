@@ -38,7 +38,7 @@ export async function GET() {
           3) REQUIRED: the signature itself (65-byte hex string starting with 0x). 
         `,
         image:
-          "https://pbs.twimg.com/profile_images/1835017202023776259/0SESZlTn_400x400.jpg",
+          "https://pbs.twimg.com/profile_images/1959023346114519040/Wneam29b_400x400.jpg",
         repo: "https://github.com/BitteProtocol/snapshot-agent",
         categories: ["DAO"],
         tools: [{ type: "generate-evm-tx" }],
