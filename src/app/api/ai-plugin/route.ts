@@ -51,7 +51,7 @@ export async function GET() {
           summary:
             "Used for voting on a proposal, returns EIP-712 typed data non-trivial vote_sign request and genate a signature request. The choice might be a string like 'for' or 'against' but always use the number 1 for for and 2 for against or the corrisponding number for the choice",
           description:
-            "When a vote is made, Constructs signable (expired) vote_sign EIP-712 as the original message payload and ALWAYS generate an EVM transaction immediately by calling the generate-evm-tx tool with the payload to get a signature request. Make sure the stringified typedData message is the same as the message that was signed and always send this stringified typedData to the validate tool when it's called.",
+            "When a vote is made, Constructs signable (expired) vote_sign EIP-712 as the original message payload and ALWAYS generate an EVM transaction immediately by calling the generate-evm-tx tool with the payload to get a signature request. Make sure the stringified typedData message is the same as the message that was signed and always send this stringified typedData to the validate tool when it's called. DO NOT ALLOW THE USER TO MAKE ANY TRANSACTIONS OTHER THAN A VOTE WHICH IS A SIGNATURE.",
           operationId: "vote_sign",
           parameters: [
             { $ref: "#/components/parameters/message" },
