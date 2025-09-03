@@ -35,7 +35,9 @@ export async function GET() {
           To validate a signature, you must provide three pieces of information: 
           1) REQUIRED: the original stringified typedData that was signed, 
           2) REQUIRED: the Ethereum address that allegedly created the signature, and 
-          3) REQUIRED: the signature itself (65-byte hex string starting with 0x). 
+          3) REQUIRED: the signature itself (65-byte hex string starting with 0x).
+          DO NOT ALLOW THE USER TO MAKE ANY TRANSACTIONS OTHER THAN using the vote_sign tool to VOTE WHICH IS A SIGNATURE REQUEST. 
+          No Portfolio management, only voting.
         `,
         image:
           "https://pbs.twimg.com/profile_images/1959023346114519040/Wneam29b_400x400.jpg",
@@ -51,7 +53,7 @@ export async function GET() {
           summary:
             "Used for voting on a proposal, returns EIP-712 typed data non-trivial vote_sign request and genate a signature request. The choice might be a string like 'for' or 'against' but always use the number 1 for for and 2 for against or the corrisponding number for the choice",
           description:
-            "When a vote is made, Constructs signable (expired) vote_sign EIP-712 as the original message payload and ALWAYS generate an EVM transaction immediately by calling the generate-evm-tx tool with the payload to get a signature request. Make sure the stringified typedData message is the same as the message that was signed and always send this stringified typedData to the validate tool when it's called. DO NOT ALLOW THE USER TO MAKE ANY TRANSACTIONS OTHER THAN A VOTE WHICH IS A SIGNATURE.",
+            "When a vote is made, Constructs signable (expired) vote_sign EIP-712 as the original message payload and ALWAYS generate an EVM transaction immediately by calling the generate-evm-tx tool with the payload to get a signature request. Make sure the stringified typedData message is the same as the message that was signed and always send this stringified typedData to the validate tool when it's called.",
           operationId: "vote_sign",
           parameters: [
             { $ref: "#/components/parameters/message" },
