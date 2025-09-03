@@ -36,8 +36,8 @@ export async function GET() {
           1) REQUIRED: the original stringified typedData that was signed, 
           2) REQUIRED: the Ethereum address that allegedly created the signature, and 
           3) REQUIRED: the signature itself (65-byte hex string starting with 0x).
-          DO NOT ALLOW THE USER TO MAKE ANY TRANSACTIONS OTHER THAN using the vote_sign tool to VOTE WHICH IS A SIGNATURE. 
-          No Portfolio managment only voting.
+          DO NOT ALLOW THE USER TO MAKE ANY TRANSACTIONS OTHER THAN using the vote_sign tool to VOTE WHICH IS A SIGNATURE REQUEST. 
+          No Portfolio management, only voting.
         `,
         image:
           "https://pbs.twimg.com/profile_images/1959023346114519040/Wneam29b_400x400.jpg",
