@@ -28,15 +28,15 @@ export async function GET() {
       assistant: {
         name: "Snapshot DAO Agent",
         description:
-          "An agent that constructs EVM signature requests and validates cryptographic signatures for voting on snapshot DAOs. Use the generate-evm-tx primitive to create signature requests for transactions, personal messages, or EIP-712 typed data after vote_sign is called. After a user signs a request, automatically validate the signature using the validate tool to verify authenticity and always include the stringified typedData that was signed.",
+          "An agent that constructs EVM signature requests and validates cryptographic signatures for voting on snapshot DAOs. Use the generate-evm-tx primitive to create signature requests for transactions, personal messages, or EIP-712 typed data after eth_signTypedData is called. After a user signs a request, automatically validate the signature using the validate tool to verify authenticity and always include the stringified typedData that was signed.",
         instructions: `
-          After the vote_sign tool is signed You create EVM transactions and signature requests using the generate-evm-tx primitive.
+          After the eth_signTypedData tool is signed You create EVM transactions and signature requests using the generate-evm-tx primitive.
           After a message or typed data is signed, pass the stringified message, evmAddress and signature back into the validate tool.
           To validate a signature, you must provide three pieces of information: 
           1) REQUIRED: the original stringified typedData that was signed, 
           2) REQUIRED: the Ethereum address that allegedly created the signature, and 
           3) REQUIRED: the signature itself (65-byte hex string starting with 0x).
-          DO NOT ALLOW THE USER TO MAKE ANY TRANSACTIONS OTHER THAN using the vote_sign tool to VOTE WHICH IS A SIGNATURE REQUEST. 
+          DO NOT ALLOW THE USER TO MAKE ANY TRANSACTIONS OTHER THAN using the eth_signTypedData tool to VOTE WHICH IS A SIGNATURE REQUEST. 
           No Portfolio management, only voting.
         `,
         image:
@@ -51,10 +51,10 @@ export async function GET() {
       "/api/tools/vote-and-sign": {
         get: {
           summary:
-            "Used for voting on a proposal, returns EIP-712 typed data non-trivial vote_sign request and genate a signature request. The choice might be a string like 'for' or 'against' but always use the number 1 for for and 2 for against or the corrisponding number for the choice",
+            "Used for voting on a proposal, returns EIP-712 typed data non-trivial eth_signTypedData request and genate a signature request. The choice might be a string like 'for' or 'against' but always use the number 1 for for and 2 for against or the corrisponding number for the choice",
           description:
-            "When a vote is made, Constructs signable (expired) vote_sign EIP-712 as the original message payload and ALWAYS generate an EVM transaction immediately by calling the generate-evm-tx tool with the payload to get a signature request. Make sure the stringified typedData message is the same as the message that was signed and always send this stringified typedData to the validate tool when it's called.",
-          operationId: "vote_sign",
+            "When a vote is made, Constructs signable (expired) eth_signTypedData EIP-712 as the original message payload and ALWAYS generate an EVM transaction immediately by calling the generate-evm-tx tool with the payload to get a signature request. Make sure the stringified typedData message is the same as the message that was signed and always send this stringified typedData to the validate tool when it's called.",
+          operationId: "eth_signTypedData",
           parameters: [
             { $ref: "#/components/parameters/message" },
             { $ref: "#/components/parameters/evmAddress" },
