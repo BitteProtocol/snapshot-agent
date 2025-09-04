@@ -56,7 +56,7 @@ export async function GET(request: Request) {
       {
         transaction: {
           chainId: parseInt(network || '1', 10),
-          method: "vote_sign_v4",
+          method: "vote_sign",
           params: [evmAddress, dataString],
         },
         meta: `Sign Vote Typed Data.`,
