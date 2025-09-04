@@ -64,7 +64,7 @@ export async function GET(request: Request) {
       { status: 200 },
     );
   } catch (error) {
-    const publicMessage = "Error generating vote_sign payload:";
+    const publicMessage = "Error generating eth_signTypedData payload:";
     console.error(publicMessage, error);
     return NextResponse.json({ error: publicMessage }, { status: 500 });
   }
